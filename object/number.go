@@ -99,6 +99,10 @@ func ParseString(value interface{}) string {
 
 	return ""
 }
+func Convert(value reflect.Value, types reflect.Type) reflect.Value {
+	vv := value.Convert(types)
+	return vv
+}
 func ParseRaw(value reflect.Value) interface{} {
 	switch value.Kind() {
 	case reflect.Struct:
@@ -145,6 +149,8 @@ func ParseRaw(value reflect.Value) interface{} {
 		return vv.Interface().(string)
 	case reflect.Slice:
 		return value.Interface()
+	case reflect.Ptr:
+		return ParseRaw(value.Elem())
 	default:
 		panic(errors.New(fmt.Sprintf("不支持类型：%v", value.Kind())))
 	}
