@@ -11,6 +11,7 @@ import (
 	"strconv"
 )
 
+/*转化为float64*/
 func ParseFloat(value interface{}) float64 {
 	if value == nil {
 		return 0
