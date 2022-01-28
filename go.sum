@@ -1,6 +1,2 @@
-github.com/gorilla/mux v1.8.0/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
-github.com/nbvghost/glog v1.0.6/go.mod h1:MpQrW1hH71geowXb/iED845KLTgcqEXETwLmqZH7vVE=
 github.com/nbvghost/glog v1.0.15 h1:EVrgNRngWQ6/QdpJ9kb6soyU5j2nYImHuVY4YqQ5QU8=
 github.com/nbvghost/glog v1.0.15/go.mod h1:MpQrW1hH71geowXb/iED845KLTgcqEXETwLmqZH7vVE=
-github.com/nbvghost/gweb v1.2.20 h1:yTF3YeBYBE6X7gckQ218jdpEkU/dcZmZjS7NoQ//w2M=
-github.com/nbvghost/gweb v1.2.20/go.mod h1:ATp3sfqO//caX5bayBGAAG+zKHX7yQANwa4rvq2rXkA=

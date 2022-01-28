@@ -1,6 +1,8 @@
 package object
 
 import (
+	"bytes"
+	"encoding/binary"
 	"errors"
 	"fmt"
 	"github.com/nbvghost/glog"
@@ -44,6 +46,13 @@ func ParseFloat(value interface{}) float64 {
 			glog.Debug(err.Error())
 		}
 		return numb
+	case []uint8:
+		var pi float64
+		buf := bytes.NewReader(value.([]byte))
+		err := binary.Read(buf, binary.LittleEndian, &pi)
+		if err != nil {
+			glog.Debug(err.Error())
+		}
 	default:
 		raw := ParseRaw(reflect.ValueOf(value))
 		if raw == nil {
