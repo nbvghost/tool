@@ -37,10 +37,8 @@ func TestPools_Remove(t *testing.T) {
 			//p.Remove(tt.args.target)
 		})
 	}
-	for {
-		glog.Trace(PoolTool.list)
-		time.Sleep(time.Second)
-	}
+	glog.Trace(PoolTool.list)
+	time.Sleep(time.Second)
 
 }
 
