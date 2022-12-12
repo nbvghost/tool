@@ -5,7 +5,6 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"github.com/nbvghost/glog"
 	"log"
 	"math"
 	"reflect"
@@ -43,7 +42,7 @@ func ParseFloat(value interface{}) float64 {
 		numberStr := value.(string)
 		numb, err := strconv.ParseFloat(numberStr, 64)
 		if err != nil {
-			glog.Debug(err.Error())
+			log.Println(err.Error())
 		}
 		return numb
 	case []uint8:
@@ -51,12 +50,12 @@ func ParseFloat(value interface{}) float64 {
 		buf := bytes.NewReader(value.([]byte))
 		err := binary.Read(buf, binary.LittleEndian, &pi)
 		if err != nil {
-			glog.Debug(err.Error())
+			log.Println(err.Error())
 		}
 	default:
 		raw := ParseRaw(reflect.ValueOf(value))
 		if raw == nil {
-			glog.Error(errors.New("未支持的数据类型：" + fmt.Sprintf("%v", reflect.TypeOf(value))))
+			log.Println(errors.New("未支持的数据类型：" + fmt.Sprintf("%v", reflect.TypeOf(value))))
 		} else {
 			return ParseFloat(raw)
 		}
@@ -100,7 +99,7 @@ func ParseString(value interface{}) string {
 	default:
 		raw := ParseRaw(reflect.ValueOf(value))
 		if raw == nil {
-			glog.Error(errors.New("未支持的数据类型：" + fmt.Sprintf("%v", reflect.TypeOf(value))))
+			log.Println(errors.New("未支持的数据类型：" + fmt.Sprintf("%v", reflect.TypeOf(value))))
 		} else {
 			return ParseString(raw)
 		}
@@ -204,13 +203,13 @@ func ParseInt(value interface{}) int {
 		numberStr := value.(string)
 		numb, err := strconv.Atoi(numberStr)
 		if err != nil {
-			glog.Debug(err.Error())
+			log.Println(err.Error())
 		}
 		return numb
 	default:
 		raw := ParseRaw(reflect.ValueOf(value))
 		if raw == nil {
-			glog.Error(errors.New("未支持的数据类型：" + fmt.Sprintf("%v", reflect.TypeOf(value))))
+			log.Println(errors.New("未支持的数据类型：" + fmt.Sprintf("%v", reflect.TypeOf(value))))
 		} else {
 			return ParseInt(raw)
 		}
@@ -251,7 +250,7 @@ func ParseUint(value interface{}) uint {
 		numberStr := value.(string)
 		numb, err := strconv.ParseUint(numberStr, 10, 64)
 		if err != nil {
-			glog.Debug(err.Error())
+			log.Println(err.Error())
 		}
 		return uint(numb)
 	default:
@@ -260,7 +259,7 @@ func ParseUint(value interface{}) uint {
 		if ok {
 			return ParseUint(v)
 		}
-		glog.Error(errors.New("未支持的数据类型：" + fmt.Sprintf("%v", reflect.TypeOf(value))))
+		log.Println(errors.New("未支持的数据类型：" + fmt.Sprintf("%v", reflect.TypeOf(value))))
 	}
 	return 0
 }
@@ -295,7 +294,7 @@ func ParseBool(value interface{}) bool {
 		numberStr := value.(string)
 		numb, err := strconv.ParseBool(numberStr)
 		if err != nil {
-			glog.Debug(err.Error())
+			log.Println(err.Error())
 		}
 		return numb
 	default:
@@ -304,7 +303,7 @@ func ParseBool(value interface{}) bool {
 		if ok {
 			return ParseBool(v)
 		}
-		glog.Error(errors.New("未支持的数据类型：" + fmt.Sprintf("%v", reflect.TypeOf(value))))
+		log.Println(errors.New("未支持的数据类型：" + fmt.Sprintf("%v", reflect.TypeOf(value))))
 	}
 	return false
 }

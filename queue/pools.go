@@ -3,7 +3,7 @@ package queue
 import (
 	"errors"
 	"fmt"
-	"github.com/nbvghost/glog"
+	"log"
 	"strings"
 	"sync"
 	"time"
@@ -67,7 +67,7 @@ func NewPools(Order messageOrder) *Pools {
 		panic(errors.New("task.Params.MaxPoolNum,不能为负数"))
 	}
 
-	glog.Trace(pt)
+	log.Println(pt)
 
 	p := &Pools{msgChan: make(chan interface{}, Params.MaxProcessMessageNum), Order: Order,
 		totalNumLocker: &sync.RWMutex{},
@@ -90,7 +90,7 @@ func (p *Pools) listenPools() <-chan interface{} {
 		}
 
 	} else {
-		glog.Panic(errors.New(fmt.Sprintf("Pools 没有匹配到处理规则：%v", p.Order)))
+		log.Panic(errors.New(fmt.Sprintf("Pools 没有匹配到处理规则：%v", p.Order)))
 		return nil
 	}
 
@@ -181,7 +181,7 @@ func (p *Pools) readMessage(num int) []interface{} {
 					return msgs
 				}
 			} else {
-				glog.Trace(map[string]interface{}{"Message": "GetMessage取到空的对象", "MsgIsNil": msg == nil, "IsOpen": isOpen})
+				log.Println(map[string]interface{}{"Message": "GetMessage取到空的对象", "MsgIsNil": msg == nil, "IsOpen": isOpen})
 				time.Sleep(time.Second)
 
 			}
@@ -230,16 +230,16 @@ func (p *Pools) push(messages ...interface{}) {
 			case <-ticker.C:
 				oldHash := p.workingPool.Hash
 				newHash := ""
-				glog.Debug(fmt.Sprintf("缓冲区已满:%v", oldHash))
+				log.Println(fmt.Sprintf("缓冲区已满:%v", oldHash))
 				if len(p.workingPool.Input) == cap(p.workingPool.Input) {
 					p.workingPool = p.getAbleWritePool()
 					newHash = p.workingPool.Hash
 				}
 
 				if strings.EqualFold(oldHash, newHash) {
-					glog.Debug(fmt.Sprintf("缓冲池已满，缓冲区数量：%v，最大缓冲区数量：%v", len(p.list), Params.MaxPoolNum))
+					log.Println(fmt.Sprintf("缓冲池已满，缓冲区数量：%v，最大缓冲区数量：%v", len(p.list), Params.MaxPoolNum))
 				} else {
-					glog.Debug(fmt.Sprintf("新建缓冲区:%v", p.workingPool.Hash))
+					log.Println(fmt.Sprintf("新建缓冲区:%v", p.workingPool.Hash))
 				}
 
 			case p.workingPool.Input <- messages[index]:
@@ -323,7 +323,7 @@ func (p *Pools) PrintStat() {
 	now := time.Now()
 	if now.Sub(p.PrintTime) > time.Second*10 {
 		p.poolNum = len(p.list)
-		glog.Trace(fmt.Sprintf("MaxPoolNum:%v   PoolNum:%v  InputTotalNum:%v   OutTotalNum:%v   ProcessTotalNum:%v", p.maxPoolNum, p.poolNum, p.inputTotalNum, p.outTotalNum, p.processTotalNum))
+		log.Println(fmt.Sprintf("MaxPoolNum:%v   PoolNum:%v  InputTotalNum:%v   OutTotalNum:%v   ProcessTotalNum:%v", p.maxPoolNum, p.poolNum, p.inputTotalNum, p.outTotalNum, p.processTotalNum))
 		p.PrintTime = now
 	}
 }

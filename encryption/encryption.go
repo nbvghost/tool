@@ -10,8 +10,8 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"errors"
-	"github.com/nbvghost/glog"
 	"io"
+	"log"
 	"strings"
 )
 
@@ -21,7 +21,7 @@ func NewSecretKey(key string) SecretKey {
 	return SecretKey(Md5ByString(key))
 }
 
-//加密
+// 加密
 func CipherEncrypter(tkey SecretKey, tvalue string) string {
 	key := []byte(tkey)
 	plaintext := []byte(tvalue)
@@ -30,7 +30,7 @@ func CipherEncrypter(tkey SecretKey, tvalue string) string {
 
 	block, err := aes.NewCipher(key)
 	if err != nil {
-		glog.Error(err)
+		log.Println(err)
 	}
 
 	// The IV needs to be unique, but not secure. Therefore it's common to
@@ -38,7 +38,7 @@ func CipherEncrypter(tkey SecretKey, tvalue string) string {
 	ciphertext := make([]byte, BlockSize+len(plaintext))
 	iv := ciphertext[:BlockSize]
 	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
-		glog.Error(err)
+		log.Println(err)
 	}
 
 	stream := cipher.NewCFBEncrypter(block, iv)
@@ -52,21 +52,21 @@ func CipherEncrypter(tkey SecretKey, tvalue string) string {
 
 }
 
-//解密
+// 解密
 func CipherDecrypter(tkey SecretKey, crypter string) string {
 	key := []byte(tkey)
 	ciphertext, _ := hex.DecodeString(crypter)
 
 	block, err := aes.NewCipher(key)
 	if err != nil {
-		glog.Error(err)
+		log.Println(err)
 		return ""
 	}
 
 	// The IV needs to be unique, but not secure. Therefore it's common to
 	// include it at the beginning of the ciphertext.
 	if len(ciphertext) < aes.BlockSize {
-		glog.Error(errors.New("必须是aes.BlockSize的倍数"))
+		log.Println(errors.New("必须是aes.BlockSize的倍数"))
 		return ""
 	}
 	iv := ciphertext[:aes.BlockSize]

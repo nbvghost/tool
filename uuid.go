@@ -5,8 +5,8 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"encoding/hex"
-	"github.com/nbvghost/glog"
 	"io"
+	"log"
 	"math"
 	mathRand "math/rand"
 	"net"
@@ -19,7 +19,7 @@ var hardwareAddrs = GetHardwareAddrs()
 func GetHardwareAddrs() string {
 	hardwareAddrs := ""
 	interfaces, sdfsdfsd := net.Interfaces()
-	glog.Error(sdfsdfsd)
+	log.Println(sdfsdfsd)
 	for _, inter := range interfaces {
 		//fmt.Println(inter.Name)
 		mac := inter.HardwareAddr //获取本机MAC地址
