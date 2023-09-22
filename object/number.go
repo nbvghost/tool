@@ -8,6 +8,7 @@ import (
 	"log"
 	"math"
 	"reflect"
+	"strings"
 
 	"strconv"
 )
@@ -201,6 +202,9 @@ func ParseInt(value interface{}) int {
 		return int(u)
 	case string:
 		numberStr := value.(string)
+		if strings.EqualFold(numberStr, "") {
+			return 0
+		}
 		numb, err := strconv.Atoi(numberStr)
 		if err != nil {
 			log.Println(err.Error())
