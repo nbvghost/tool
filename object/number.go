@@ -41,6 +41,9 @@ func ParseFloat(value interface{}) float64 {
 		return value.(float64)
 	case string:
 		numberStr := value.(string)
+		if strings.EqualFold(numberStr, "") {
+			return 0
+		}
 		numb, err := strconv.ParseFloat(numberStr, 64)
 		if err != nil {
 			log.Println(err.Error())
@@ -252,6 +255,9 @@ func ParseUint(value interface{}) uint {
 		return uint(u)
 	case string:
 		numberStr := value.(string)
+		if strings.EqualFold(numberStr, "") {
+			return 0
+		}
 		numb, err := strconv.ParseUint(numberStr, 10, 64)
 		if err != nil {
 			log.Println(err.Error())
@@ -296,6 +302,9 @@ func ParseBool(value interface{}) bool {
 		return value.(bool)
 	case string:
 		numberStr := value.(string)
+		if strings.EqualFold(numberStr, "") {
+			return false
+		}
 		numb, err := strconv.ParseBool(numberStr)
 		if err != nil {
 			log.Println(err.Error())
