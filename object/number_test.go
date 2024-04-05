@@ -62,3 +62,23 @@ func TestParseString(t *testing.T) {
 		})
 	}
 }
+
+func TestParseString1(t *testing.T) {
+	type args struct {
+		value interface{}
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{name: "bool转字符", args: args{value: true}, want: "true"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ParseString(tt.args.value); got != tt.want {
+				t.Errorf("ParseString() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

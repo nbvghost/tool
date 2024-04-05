@@ -100,6 +100,12 @@ func ParseString(value interface{}) string {
 	case string:
 		numberStr := value.(string)
 		return numberStr
+	case bool:
+		if value.(bool) {
+			return "true"
+		} else {
+			return "false"
+		}
 	default:
 		raw := ParseRaw(reflect.ValueOf(value))
 		if raw == nil {
