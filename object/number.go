@@ -16,6 +16,7 @@ import (
 // Decimal float64 保留小数点后位数
 // value float64 浮点数
 // prec int 需保留小数点后的位数
+// 会时行四舍五入
 func Decimal(value float64, prec int) float64 {
 	value, _ = strconv.ParseFloat(strconv.FormatFloat(value, 'f', prec, 64), 64)
 	return value
